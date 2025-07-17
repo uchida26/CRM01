@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { createRoot } from 'react-dom/client';
+const { useState } = React;
+const { createRoot } = ReactDOM;
 
-// Simple Customer Management Component
 function CustomerManagement() {
-  const [customers, setCustomers] = useState([]); // {id, name, email}
+  const [customers, setCustomers] = useState([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [editingId, setEditingId] = useState(null);
@@ -12,29 +11,28 @@ function CustomerManagement() {
 
   const addCustomer = () => {
     if (!name || !email) return;
-    setCustomers([
-      ...customers,
-      { id: Date.now(), name, email }
-    ]);
+    setCustomers([...customers, { id: Date.now(), name, email }]);
     setName('');
     setEmail('');
   };
 
-  const startEdit = (id, currentName, currentEmail) => {
-    setEditingId(id);
-    setEditName(currentName);
-    setEditEmail(currentEmail);
+  const startEdit = (customer) => {
+    setEditingId(customer.id);
+    setEditName(customer.name);
+    setEditEmail(customer.email);
   };
 
   const saveEdit = (id) => {
-    setCustomers(customers.map(c => c.id === id ? { ...c, name: editName, email: editEmail } : c));
+    setCustomers(
+      customers.map((c) => (c.id === id ? { ...c, name: editName, email: editEmail } : c))
+    );
     setEditingId(null);
     setEditName('');
     setEditEmail('');
   };
 
   const deleteCustomer = (id) => {
-    setCustomers(customers.filter(c => c.id !== id));
+    setCustomers(customers.filter((c) => c.id !== id));
   };
 
   return (
@@ -53,7 +51,7 @@ function CustomerManagement() {
         />
         <button onClick={addCustomer}>顧客追加</button>
       </div>
-      <table border="1" style={{ marginTop: '1rem', width: '100%'}}>
+      <table border="1" style={{ marginTop: '1rem', width: '100%' }}>
         <thead>
           <tr>
             <th>名前</th>
@@ -62,35 +60,29 @@ function CustomerManagement() {
           </tr>
         </thead>
         <tbody>
-          {customers.map(customer => (
-            <tr key={customer.id}>
+          {customers.map((c) => (
+            <tr key={c.id}>
               <td>
-                {editingId === customer.id ? (
-                  <input
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                  />
+                {editingId === c.id ? (
+                  <input value={editName} onChange={(e) => setEditName(e.target.value)} />
                 ) : (
-                  customer.name
+                  c.name
                 )}
               </td>
               <td>
-                {editingId === customer.id ? (
-                  <input
-                    value={editEmail}
-                    onChange={(e) => setEditEmail(e.target.value)}
-                  />
+                {editingId === c.id ? (
+                  <input value={editEmail} onChange={(e) => setEditEmail(e.target.value)} />
                 ) : (
-                  customer.email
+                  c.email
                 )}
               </td>
               <td>
-                {editingId === customer.id ? (
-                  <button onClick={() => saveEdit(customer.id)}>保存</button>
+                {editingId === c.id ? (
+                  <button onClick={() => saveEdit(c.id)}>保存</button>
                 ) : (
                   <>
-                    <button onClick={() => startEdit(customer.id, customer.name, customer.email)}>編集</button>
-                    <button onClick={() => deleteCustomer(customer.id)}>削除</button>
+                    <button onClick={() => startEdit(c)}>編集</button>
+                    <button onClick={() => deleteCustomer(c.id)}>削除</button>
                   </>
                 )}
               </td>
@@ -102,6 +94,7 @@ function CustomerManagement() {
   );
 }
 
-const container = document.getElementById('root');
-const root = createRoot(container);
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement);
 root.render(<CustomerManagement />);
+
