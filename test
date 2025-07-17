@@ -1,0 +1,6 @@
+# プロジェクトルートに main.jsx を作成する例
+touch main.jsx
+echo "// ここからCRMのコーディング開始" > main.jsx
+git add main.jsx
+git commit -m "初期コードファイル追加"
+git push origin main
