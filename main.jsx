@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 const { useState } = React;
 const { createRoot } = ReactDOM;
 
