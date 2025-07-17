@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { createRoot } from 'react-dom/client';
+const { useState } = React;
+const { createRoot } = ReactDOM;
 
 // Simple Customer Management Component
 function CustomerManagement() {
